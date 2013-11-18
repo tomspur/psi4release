@@ -47,6 +47,7 @@ void get_params(Options& options)
 {
   int errcod, iconv,i,j,k,l,prop_sym,prop_root, excited_method=0;
         int *states_per_irrep, prop_all, lambda_and_Ls = 0;
+  int forceit;
   char lbl[32];
   std::string junk;
 
@@ -83,7 +84,10 @@ void get_params(Options& options)
 
   params.restart = 1;
   params.restart = options.get_bool("RESTART");
+  /* If the MO orbital phases are screwed up, don't restart */
   if(!moinfo.phase) params.restart = 0;
+  forceit = options.get_bool("FORCE_RESTART");
+  if(forceit) params.restart = 1;
 
   params.memory = Process::environment.get_memory();
 
